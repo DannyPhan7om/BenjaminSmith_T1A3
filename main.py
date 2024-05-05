@@ -32,7 +32,7 @@ class VirtualPet:
 
 # Menu Screen
 def create_menu(pet):
-    
+
     print(pet.status())
 
     print("1. Press 1 to feed your pet")
@@ -67,9 +67,17 @@ def load_status():
 
 # Actions from the menu
 def main():
-    print("Welcome to your Virtual Pet Simulator")
-    pet_name = input("Whats your pet's name?: ")
-    pet = VirtualPet(pet_name)
+    # Opens the file storing peta data if available, if not, prompts for pet name
+    print("Welcome to your Virtual Pet Simulator!")
+    pet_info = load_status()
+    if pet_info:
+        pet = VirtualPet(pet_info[0])
+        pet._fullness = pet_info[1]
+        pet._happiness = pet_info[2]
+        pet._energy = pet_info[3]
+    else:
+        pet_name = input("What's your pet's name?: ")
+        pet = VirtualPet(pet_name)
 
     choice = ""
     while choice != "4":
@@ -83,6 +91,7 @@ def main():
             pet.play()
         elif choice == "4":
             print("Exiting Application...")
+            save_status(pet)
         else:
             print("Invalid Input, please select from numbers 1-4")
 
