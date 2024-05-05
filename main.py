@@ -1,5 +1,6 @@
 import threading
 import time
+import os
 
 import colorama
 from colorama import Fore, Back, Style
@@ -100,24 +101,27 @@ class VirtualPet:
 # Quits the loop before displaying messages if game is over
     def confirm_attributes(self):
         if self.game_over:
+            if os.path.exists("pet_status.txt"):
+                os.remove("pet_status.txt")
+                return
             return
 
         fullness_message = {
-            "min": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}{self.name} has died of starvation"),
+            "min": (f"\n{Fore.RED}{Style.BRIGHT}{self.name} has died of starvation"),
             "warning": (f"\n{Fore.RED}{Style.BRIGHT}{self.name} is full, stop before they explode!"),
-            "max": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}{self.name} ate so much they burst!")
+            "max": (f"\n{Fore.RED}{Style.BRIGHT}{self.name} ate so much they burst!")
         }
 
         happiness_message = {
-            "min": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}{self.name} has died of loneliness"),
+            "min": (f"\n{Fore.RED}{Style.BRIGHT}{self.name} has died of loneliness"),
             "warning": (f"\n{Fore.RED}{Style.BRIGHT}{self.name}'s heart is full of sunshine and rainbows, be careful they can't take much more!"),
-            "max": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}Too much sunshine, now {self.name} is dead!")
+            "max": (f"\n{Fore.RED}{Style.BRIGHT}Too much sunshine, now {self.name} is dead!")
         }
 
         energy_message = {
-            "min": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}{self.name} has run out of energy"),
+            "min": (f"\n{Fore.RED}{Style.BRIGHT}{self.name} has run out of energy"),
             "warning": (f"\n{Fore.RED}{Style.BRIGHT}{self.name} if full, of energy! someone better play with them!"),
-            "max": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}The buildup of energy inside {self.name} has converted to heat and roasted them!")
+            "max": (f"\n{Fore.RED}{Style.BRIGHT}The buildup of energy inside {self.name} has converted to heat and roasted them!")
         }
         self.confirm_attribute(self._fullness, 100, fullness_message)
         self.confirm_attribute(self._happiness, 100, happiness_message)
@@ -211,6 +215,7 @@ def main():
             print(Back.RED+ Style.BRIGHT + "\nInvalid Input, please select from numbers 1-4" + Back.RESET)
 
     print(Fore.MAGENTA + Style.BRIGHT + "Thank you for playing! See you soon!")
+    pet.confirm_attributes()
     exit()
 
 if __name__ == "__main__":
