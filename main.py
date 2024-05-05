@@ -40,3 +40,29 @@ def create_menu(pet):
     print(user_choice)
     return user_choice
 
+# Actions from the menu
+def main():
+    print("Welcome to your Virtual Pet Simulator")
+    pet_name = input("Whats your pet's name?: ")
+    pet = VirtualPet(pet_name)
+
+    choice = ""
+    while choice != "4":
+        choice = create_menu(pet)
+        
+        if choice == "1":
+            pet.feed()
+        elif choice == "2":
+            pet.rest()
+        elif choice == "3":
+            pet.play()
+        elif choice == "4":
+            print("Exiting Application...")
+        else:
+            print("Invalid Input, please select from numbers 1-4")
+
+    print("Thank you for playing! See you soon!")
+    exit()
+
+if __name__ == "__main__":
+    main()
