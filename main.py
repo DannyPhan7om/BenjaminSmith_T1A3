@@ -26,7 +26,7 @@ class VirtualPet:
     def rest(self):
         # Added some snoring to personalise the game
         print(f"{self.name} is counting sheep to get to sleep")
-        time.sleep(1) 
+        time.sleep(1)
         print("1 sheep")
         time.sleep(1)
         print("2 sheep")
