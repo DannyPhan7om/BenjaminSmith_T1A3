@@ -1,5 +1,6 @@
 import threading
 import time
+import sys
 
 
 # Class for the Virtual Pet
@@ -9,9 +10,9 @@ class VirtualPet:
         self._fullness = 50
         self._happiness = 50
         self._energy = 50
-        
 # Ensures that the pet's status is always changing while running
         self.is_running = True
+        self.game_over = False
 
     def feed(self):
         self._fullness += 20
@@ -58,43 +59,49 @@ class VirtualPet:
     def stop_timer(self):
         self.is_running = False
 
+# Setting the limits for the pets attributes
     def confirm_attribute(self, attribute, max_value, message):
         if attribute <= 0:
             print(message["min"])
-            exit()
+            self.game_over = True
         elif attribute == max_value:
             print(message["warning"])
         elif attribute > max_value:
             print(message["max"])
-            exit()
+            self.game_over = True
 
+# Quits the loop before displaying messages if game is over
     def confirm_attributes(self):
+        if self.game_over:
+            return
+
         fullness_message = {
-            "min": f"{self.name} has died of starvation",
-            "warning": f"{self.name} if full, stop before they explode!",
-            "max": f"{self.name} ate so much they burst!"
+            "min": f"\n{self.name} has died of starvation",
+            "warning": f"\n{self.name} is full, stop before they explode!",
+            "max": f"\n{self.name} ate so much they burst!"
         }
 
         happiness_message = {
-            "min": f"{self.name} has died of loneliness",
-            "warning": f"{self.name}'s heart is full of sunshine and rainbows!",
-            "max": f"Too much sunshine, now {self.name} is dead!"
+            "min": f"\n{self.name} has died of loneliness",
+            "warning": f"\n{self.name}'s heart is full of sunshine and rainbows!",
+            "max": f"\nToo much sunshine, now {self.name} is dead!"
         }
 
         energy_message = {
-            "min": f"{self.name} has run out of energy",
-            "warning": f"{self.name} if full, of energy! someone better play with them!",
-            "max": f"The buildup of energy inside {self.name} has converted to heat and roasted them!"
+            "min": f"\n{self.name} has run out of energy",
+            "warning": f"\n{self.name} if full, of energy! someone better play with them!",
+            "max": f"\nThe buildup of energy inside {self.name} has converted to heat and roasted them!"
         }
         self.confirm_attribute(self._fullness, 100, fullness_message)
         self.confirm_attribute(self._happiness, 100, happiness_message)
         self.confirm_attribute(self._energy, 100, energy_message)
 
 
-
     def alter_attributes(self):
         while self.is_running:
             self.confirm_attributes()
+            if self.game_over:
+                break
             self._fullness -= 2
             self._happiness -= 2
             self._energy += 1
@@ -109,11 +116,11 @@ def create_menu(pet):
         
     print(pet.status())
 
+    print("Press ENTER/RETURN to refresh")
     print("1. Press 1 to feed your pet")
     print("2. Press 2 to let your pet rest")
     print("3. Press 3 to play with your pet")
     print("4. Press 4 to EXIT")
-
 
     user_choice = input("Pick your action:  ")
     print(user_choice)
@@ -142,7 +149,7 @@ def load_status():
 
 # Actions from the menu
 def main():
-    # Opens the file storing peta data if available, if not, prompts for pet name
+    # Opens the file storing pet data if available, if not, prompts for pet name
     pet_info = load_status()
     if pet_info:
         print(f"Welcome to your Virtual Pet Simulator, {pet_info[0]} has been waiting for you!")
@@ -158,7 +165,7 @@ def main():
     pet.start_timer()
 
     choice = ""
-    while choice != "4":
+    while choice != "4" and pet.game_over == False:
         choice = create_menu(pet)
         
         if choice == "1":
@@ -171,6 +178,9 @@ def main():
             print("Exiting Application...")
             pet.stop_timer()
             save_status(pet)
+            break
+        elif choice == "":
+            continue
         else:
             print("Invalid Input, please select from numbers 1-4")
 
