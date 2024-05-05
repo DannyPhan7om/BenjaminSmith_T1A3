@@ -1,6 +1,5 @@
 import threading
 import time
-import sys
 
 
 # Class for the Virtual Pet
@@ -108,7 +107,7 @@ class VirtualPet:
             time.sleep(1)
 
     def status(self):
-        return f"Name: {self.name}, Hunger: {self._fullness}, Happiness: {self._happiness}, Energy: {self._energy}"
+        return (f"\n{Style.BRIGHT}{Fore.BLUE}Name:{Fore.RESET} {self.name}, {Style.BRIGHT}{Fore.BLUE}Hunger:{Fore.RESET} {self._fullness}, {Style.BRIGHT}{Fore.BLUE}Happiness:{Fore.RESET} {self._happiness}, {Style.BRIGHT}{Fore.BLUE}Energy:{Fore.RESET} {self._energy}\n")
 
 
 # Menu Screen
@@ -116,14 +115,13 @@ def create_menu(pet):
         
     print(pet.status())
 
-    print("Press ENTER/RETURN to refresh")
     print("1. Press 1 to feed your pet")
     print("2. Press 2 to let your pet rest")
     print("3. Press 3 to play with your pet")
     print("4. Press 4 to EXIT")
 
-    user_choice = input("Pick your action:  ")
-    print(user_choice)
+
+    user_choice = input(Fore.MAGENTA + Style.BRIGHT + "\nPick your action: " + Fore.RESET)
     return user_choice
 
 # Ability to Save Pet Status at end of gaming session
@@ -152,14 +150,14 @@ def main():
     # Opens the file storing pet data if available, if not, prompts for pet name
     pet_info = load_status()
     if pet_info:
-        print(f"Welcome to your Virtual Pet Simulator, {pet_info[0]} has been waiting for you!")
+        print(f"\n{Fore.WHITE}{Back.CYAN}Welcome to your Virtual Pet Simulator, {pet_info[0]} has been waiting for you!{Back.RESET}\n")
         pet = VirtualPet(pet_info[0])
         pet._fullness = pet_info[1]
         pet._happiness = pet_info[2]
         pet._energy = pet_info[3]
     else:
-        print("Welcome to your Virtual Pet Simulator!")
-        pet_name = input("What's your pet's name?: ")
+        print(Fore.BLUE + Style.BRIGHT + "Welcome to your Virtual Pet Simulator!")
+        pet_name = input(Fore.BLUE + Style.BRIGHT + "What's your pet's name?: " + Fore.RESET)
         pet = VirtualPet(pet_name)
 
     pet.start_timer()
@@ -182,9 +180,9 @@ def main():
         elif choice == "":
             continue
         else:
-            print("Invalid Input, please select from numbers 1-4")
+            print(Back.RED+ Style.BRIGHT + "\nInvalid Input, please select from numbers 1-4" + Back.RESET)
 
-    print("Thank you for playing! See you soon!")
+    print(Fore.MAGENTA + Style.BRIGHT + "Thank you for playing! See you soon!")
     exit()
 
 if __name__ == "__main__":
