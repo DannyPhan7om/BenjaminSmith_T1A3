@@ -10,6 +10,9 @@ class VirtualPet:
         self._fullness = 50
         self._happiness = 50
         self._energy = 50
+        
+# Ensures that the pet's status is always changing while running
+        self.is_running = True
 
     def feed(self):
         self._fullness += 20
@@ -47,7 +50,54 @@ class VirtualPet:
         self._happiness = 50
         self._energy = 50
 
-    
+# Starting the timer that alters pets status over time
+    def start_timer(self):
+        self.timer_thread = threading.Thread(target=self.alter_attributes)
+        self.timer_thread.start()
+
+    def stop_timer(self):
+        self.is_running = False
+
+
+# Stopping the timer that alters pets status over time
+    def stop_timer(self):
+        self.is_running = False
+
+    def alter_attributes(self):
+        while self.is_running:
+            self._fullness -= 2
+            self._happiness -= 2
+            self._energy += 1
+            time.sleep(1)
+
+            if self._fullness <= 0:
+                print(f"{self.name} has died of starvation.. GAME OVER")
+                
+            elif self._fullness == 100:
+                print(f"{self.name} is full, stop before they explode!")
+
+            elif self._fullness > 100:
+                print(f"{self.name} ate so much they burst! GAME OVER")
+                
+            if self._happiness <= 0:
+                print(f"{self.name} has died of loneliness.. GAME OVER")
+                
+            elif self._happiness == 100:
+                print(f"{self.name}'s heart is full of rainbows and sunshine!")
+
+            elif self._happiness > 100:
+                print(f"{self.name} Too much sunshine, now they're dead... GAME OVER")
+                
+
+            if self._energy <= 0:
+                print(f"{self.name} has run out of energy.. GAME OVER")
+
+            elif self._energy == 100:
+                print(f"{self.name} is full of energy, someone better play with them!")
+
+            elif self._energy > 100:
+                print(f"{self.name} Had too much energy, converted it to heat and roasted... GAME OVER")
+                    
 
     def status(self):
         return f"Name: {self.name}, Hunger: {self._fullness}, Happiness: {self._happiness}, Energy: {self._energy}"
@@ -55,13 +105,14 @@ class VirtualPet:
 
 # Menu Screen
 def create_menu(pet):
-
+        
     print(pet.status())
 
     print("1. Press 1 to feed your pet")
     print("2. Press 2 to let your pet rest")
     print("3. Press 3 to play with your pet")
     print("4. Press 4 to EXIT")
+
 
     user_choice = input("Pick your action:  ")
     print(user_choice)
@@ -103,6 +154,7 @@ def main():
         pet_name = input("What's your pet's name?: ")
         pet = VirtualPet(pet_name)
 
+    pet.start_timer()
 
     choice = ""
     while choice != "4":
@@ -116,6 +168,7 @@ def main():
             pet.play()
         elif choice == "4":
             print("Exiting Application...")
+            pet.stop_timer()
             save_status(pet)
         else:
             print("Invalid Input, please select from numbers 1-4")
