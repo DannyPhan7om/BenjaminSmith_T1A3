@@ -1,3 +1,7 @@
+import threading
+import sys
+import time
+
 
 # Class for the Virtual Pet
 class VirtualPet:
@@ -30,7 +34,7 @@ class VirtualPet:
 def create_menu(pet):
     
     print(pet.status())
-    
+
     print("1. Press 1 to feed your pet")
     print("2. Press 2 to let your pet rest")
     print("3. Press 3 to play with your pet")
@@ -39,6 +43,27 @@ def create_menu(pet):
     user_choice = input("Pick your action:  ")
     print(user_choice)
     return user_choice
+
+# Ability to Save Pet Status at end of gaming session
+def save_status(pet):
+    with open("pet_status.txt", "w") as f:
+        f.write(f"{pet.name}\n")
+        f.write(f"{pet._fullness}\n")
+        f.write(f"{pet._happiness}\n")
+        f.write(f"{pet._energy}\n")
+
+
+# Ability to Load Pet Status at start of gaming session
+def load_status():
+    try:
+        with open("pet_status.txt", "r") as f:
+            name = f.readline().strip()
+            fullness = int(f.readline().strip())
+            happiness = int(f.readline().strip())
+            energy = int(f.readline().strip())
+            return name, fullness, happiness, energy
+    except FileNotFoundError:
+        return None
 
 # Actions from the menu
 def main():
