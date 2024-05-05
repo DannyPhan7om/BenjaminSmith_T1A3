@@ -68,16 +68,18 @@ def load_status():
 # Actions from the menu
 def main():
     # Opens the file storing peta data if available, if not, prompts for pet name
-    print("Welcome to your Virtual Pet Simulator!")
     pet_info = load_status()
     if pet_info:
+        print(f"Welcome to your Virtual Pet Simulator, {pet_info[0]} has been waiting for you!")
         pet = VirtualPet(pet_info[0])
         pet._fullness = pet_info[1]
         pet._happiness = pet_info[2]
         pet._energy = pet_info[3]
     else:
+        print("Welcome to your Virtual Pet Simulator!")
         pet_name = input("What's your pet's name?: ")
         pet = VirtualPet(pet_name)
+
 
     choice = ""
     while choice != "4":
