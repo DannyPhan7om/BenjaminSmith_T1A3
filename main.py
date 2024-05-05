@@ -22,9 +22,32 @@ class VirtualPet:
         self._energy -= 10
 
     def rest(self):
+        # Added some snoring to personalise the game
+        print(f"{self.name} is counting sheep to get to sleep")
+        time.sleep(1) 
+        print("1 sheep")
+        time.sleep(1)
+        print("2 sheep")
+        time.sleep(1)
+        print("3 she--")
+        time.sleep(1)
+        print(f"{self.name} is fast asleep")
+        time.sleep(2)
+        print("honk")
+        time.sleep(1)
+        print("shuuu")
+        time.sleep(1)
+        print("honk")
+        time.sleep(1)
+        print("shuuuuu")
+        time.sleep(2)
+        print(f"{self.name} is awake and refreshed, stats are back to baseline")
+
         self._fullness = 50
         self._happiness = 50
         self._energy = 50
+
+    
 
     def status(self):
         return f"Name: {self.name}, Hunger: {self._fullness}, Happiness: {self._happiness}, Energy: {self._energy}"
