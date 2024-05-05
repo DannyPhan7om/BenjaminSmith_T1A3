@@ -1,5 +1,4 @@
 import threading
-import sys
 import time
 
 
@@ -59,41 +58,47 @@ class VirtualPet:
     def stop_timer(self):
         self.is_running = False
 
+    def confirm_attribute(self, attribute, max_value, message):
+        if attribute <= 0:
+            print(message["min"])
+            exit()
+        elif attribute == max_value:
+            print(message["warning"])
+        elif attribute > max_value:
+            print(message["max"])
+            exit()
+
+    def confirm_attributes(self):
+        fullness_message = {
+            "min": f"{self.name} has died of starvation",
+            "warning": f"{self.name} if full, stop before they explode!",
+            "max": f"{self.name} ate so much they burst!"
+        }
+
+        happiness_message = {
+            "min": f"{self.name} has died of loneliness",
+            "warning": f"{self.name}'s heart is full of sunshine and rainbows!",
+            "max": f"Too much sunshine, now {self.name} is dead!"
+        }
+
+        energy_message = {
+            "min": f"{self.name} has run out of energy",
+            "warning": f"{self.name} if full, of energy! someone better play with them!",
+            "max": f"The buildup of energy inside {self.name} has converted to heat and roasted them!"
+        }
+        self.confirm_attribute(self._fullness, 100, fullness_message)
+        self.confirm_attribute(self._happiness, 100, happiness_message)
+        self.confirm_attribute(self._energy, 100, energy_message)
+
+
+
     def alter_attributes(self):
         while self.is_running:
+            self.confirm_attributes()
             self._fullness -= 2
             self._happiness -= 2
             self._energy += 1
             time.sleep(1)
-
-            if self._fullness <= 0:
-                print(f"{self.name} has died of starvation.. GAME OVER")
-                
-            elif self._fullness == 100:
-                print(f"{self.name} is full, stop before they explode!")
-
-            elif self._fullness > 100:
-                print(f"{self.name} ate so much they burst! GAME OVER")
-                
-            if self._happiness <= 0:
-                print(f"{self.name} has died of loneliness.. GAME OVER")
-                
-            elif self._happiness == 100:
-                print(f"{self.name}'s heart is full of rainbows and sunshine!")
-
-            elif self._happiness > 100:
-                print(f"{self.name} Too much sunshine, now they're dead... GAME OVER")
-                
-
-            if self._energy <= 0:
-                print(f"{self.name} has run out of energy.. GAME OVER")
-
-            elif self._energy == 100:
-                print(f"{self.name} is full of energy, someone better play with them!")
-
-            elif self._energy > 100:
-                print(f"{self.name} Had too much energy, converted it to heat and roasted... GAME OVER")
-                    
 
     def status(self):
         return f"Name: {self.name}, Hunger: {self._fullness}, Happiness: {self._happiness}, Energy: {self._energy}"
