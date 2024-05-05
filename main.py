@@ -1,6 +1,10 @@
 import threading
 import time
 
+import colorama
+from colorama import Fore, Back, Style
+colorama.init(autoreset=True)
+
 
 # Class for the Virtual Pet
 class VirtualPet:
@@ -115,11 +119,11 @@ def create_menu(pet):
         
     print(pet.status())
 
-    print("1. Press 1 to feed your pet")
-    print("2. Press 2 to let your pet rest")
-    print("3. Press 3 to play with your pet")
-    print("4. Press 4 to EXIT")
-
+    print(Fore.BLUE + Style.BRIGHT +"Press "+ Fore.MAGENTA + "ENTER/RETURN" + Fore.BLUE + Style.BRIGHT + Back.RESET + " to refresh")
+    print(Fore.BLUE + Style.BRIGHT +"Press "+ Fore.MAGENTA + "1" + Fore.BLUE + Style.BRIGHT + Back.RESET + " to feed your pet")
+    print(Fore.BLUE + Style.BRIGHT +"Press "+ Fore.MAGENTA + "2" + Fore.BLUE + Style.BRIGHT + Back.RESET + " to let your pet rest")
+    print(Fore.BLUE + Style.BRIGHT +"Press "+ Fore.MAGENTA + "3" + Fore.BLUE + Style.BRIGHT + Back.RESET + " to to play with your pet")
+    print(Fore.BLUE + Style.BRIGHT +"Press "+ Fore.MAGENTA + "4" + Fore.BLUE + Style.BRIGHT + Back.RESET + " to EXIT")
 
     user_choice = input(Fore.MAGENTA + Style.BRIGHT + "\nPick your action: " + Fore.RESET)
     return user_choice
