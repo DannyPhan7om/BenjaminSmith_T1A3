@@ -18,11 +18,35 @@ class VirtualPet:
         self.game_over = False
 
     def feed(self):
+        print(f"You have put food out for {self.name}")
+        time.sleep(1)
+        print("CHOMP")
+        time.sleep(1)
+        print("CHOMP")
+        time.sleep(1)
+        print("CHOMP")
+        time.sleep(2)
+        print(f"The food is all gone and {self.name} is feeling stuffed!")
+        time.sleep(1)
+
         self._fullness += 20
         self._happiness += 20
         self._energy += 10
 
     def play(self):
+
+        print(f"{self.name} wants to play fetch")
+        time.sleep(1)
+        print("You have thrown the ball")
+        time.sleep(1)
+        print(f"{self.name} is running for the ball")
+        time.sleep(2)
+        print(f"{self.name} is still running for the ball")
+        time.sleep(1)
+        print(f"{self.name} is bringing the ball back")
+        time.sleep(2)
+        print(f"Wow that was fun! {self.name} is feeling happier now!")
+        time.sleep(1)
         self._fullness -= 20
         self._happiness += 20
         self._energy -= 10
@@ -47,7 +71,7 @@ class VirtualPet:
         time.sleep(1)
         print("shuuuuu")
         time.sleep(2)
-        print(f"{self.name} is awake and refreshed, stats are back to baseline")
+        print(f"{self.name} is awake and refreshed")
 
         self._fullness = 50
         self._happiness = 50
@@ -79,21 +103,21 @@ class VirtualPet:
             return
 
         fullness_message = {
-            "min": f"\n{self.name} has died of starvation",
-            "warning": f"\n{self.name} is full, stop before they explode!",
-            "max": f"\n{self.name} ate so much they burst!"
+            "min": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}{self.name} has died of starvation"),
+            "warning": (f"\n{Fore.RED}{Style.BRIGHT}{self.name} is full, stop before they explode!"),
+            "max": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}{self.name} ate so much they burst!")
         }
 
         happiness_message = {
-            "min": f"\n{self.name} has died of loneliness",
-            "warning": f"\n{self.name}'s heart is full of sunshine and rainbows!",
-            "max": f"\nToo much sunshine, now {self.name} is dead!"
+            "min": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}{self.name} has died of loneliness"),
+            "warning": (f"\n{Fore.RED}{Style.BRIGHT}{self.name}'s heart is full of sunshine and rainbows, be careful they can't take much more!"),
+            "max": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}Too much sunshine, now {self.name} is dead!")
         }
 
         energy_message = {
-            "min": f"\n{self.name} has run out of energy",
-            "warning": f"\n{self.name} if full, of energy! someone better play with them!",
-            "max": f"\nThe buildup of energy inside {self.name} has converted to heat and roasted them!"
+            "min": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}{self.name} has run out of energy"),
+            "warning": (f"\n{Fore.RED}{Style.BRIGHT}{self.name} if full, of energy! someone better play with them!"),
+            "max": (f"\n{Fore.RED}{Style.BRIGHT}{Back.BLACK}The buildup of energy inside {self.name} has converted to heat and roasted them!")
         }
         self.confirm_attribute(self._fullness, 100, fullness_message)
         self.confirm_attribute(self._happiness, 100, happiness_message)
@@ -108,7 +132,7 @@ class VirtualPet:
             self._fullness -= 2
             self._happiness -= 2
             self._energy += 1
-            time.sleep(1)
+            time.sleep(5)
 
     def status(self):
         return (f"\n{Style.BRIGHT}{Fore.BLUE}Name:{Fore.RESET} {self.name}, {Style.BRIGHT}{Fore.BLUE}Hunger:{Fore.RESET} {self._fullness}, {Style.BRIGHT}{Fore.BLUE}Happiness:{Fore.RESET} {self._happiness}, {Style.BRIGHT}{Fore.BLUE}Energy:{Fore.RESET} {self._energy}\n")
@@ -154,7 +178,7 @@ def main():
     # Opens the file storing pet data if available, if not, prompts for pet name
     pet_info = load_status()
     if pet_info:
-        print(f"\n{Fore.WHITE}{Back.CYAN}Welcome to your Virtual Pet Simulator, {pet_info[0]} has been waiting for you!{Back.RESET}\n")
+        print(f"\n{Fore.BLUE}{Style.BRIGHT}Welcome to your Virtual Pet Simulator, {pet_info[0]} has been waiting for you!{Back.RESET}\n")
         pet = VirtualPet(pet_info[0])
         pet._fullness = pet_info[1]
         pet._happiness = pet_info[2]
