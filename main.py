@@ -14,10 +14,10 @@ class VirtualPet:
         self._fullness = 50
         self._happiness = 50
         self._energy = 50
-# Ensures that the pet's status is always changing while running
+    # Ensures that the pet's status is always changing while running
         self.is_running = True
         self.game_over = False
-
+    # Text for feeding pet
     def feed(self):
         print(f"You have put food out for {self.name}")
         time.sleep(1)
@@ -35,7 +35,7 @@ class VirtualPet:
         self._energy += 10
 
     def play(self):
-
+        # Text for playing with virtual pet
         print(f"{self.name} wants to play fetch")
         time.sleep(1)
         print("You have thrown the ball")
@@ -78,16 +78,16 @@ class VirtualPet:
         self._happiness = 50
         self._energy = 50
 
-# Starting the timer that alters pets status over time
+    # Starting the timer that alters pets status over time
     def start_timer(self):
         self.timer_thread = threading.Thread(target=self.alter_attributes)
         self.timer_thread.start()
         
-# Stopping the timer that alters pets status over time
+    # Stopping the timer that alters pets status over time
     def stop_timer(self):
         self.is_running = False
 
-# Setting the limits for the pets attributes
+    # Setting the limits for the pets attributes
     def confirm_attribute(self, attribute, max_value, message):
         if attribute <= 0:
             print(message["min"])
@@ -98,7 +98,7 @@ class VirtualPet:
             print(message["max"])
             self.game_over = True
 
-# Quits the loop before displaying messages if game is over
+    # Quits the loop before displaying messages if game is over
     def confirm_attributes(self):
         if self.game_over:
             if os.path.exists("pet_status.txt"):
